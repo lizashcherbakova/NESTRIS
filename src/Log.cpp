@@ -60,7 +60,7 @@ void Log::update(std::string info, const T& t) {
 	}
 }
 template void Log::update(std::string info, const std::string& t);
-template void Log::update(std::string info, char const* const& t);
+template void Log::update<char const* const>(std::string info, char const* const& t);
 template void Log::update(std::string info, const int& t);
 template void Log::update(std::string info, const std::size_t& t);
 template void Log::update(std::string info, const unsigned long long& t);

@@ -48,8 +48,7 @@ TileRenderer::TileRenderer()
 {
 
 }
-
-void TileRenderer::create(const std::size_t& _width, const std::size_t& _height, std::pair<std::size_t, std::size_t> _tilesize, const int& _drawmethod, const sf::Vector3<std::size_t>& _extra_render) {
+void TileRenderer::create(const std::size_t& _width, const std::size_t& _height, std::pair<largest_uint, largest_uint> _tilesize, const int& _drawmethod, const sf::Vector3<std::size_t>& _extra_render) {
 	width = _width;
 	height = _height;
 	extra_render = _extra_render;
@@ -104,7 +103,7 @@ void TileRenderer::create(const std::size_t& _width, const std::size_t& _height,
 }
 
 
-TileRenderer::TileRenderer(const std::size_t & _width, const std::size_t & _height, std::pair<std::size_t, std::size_t> _tilesize, const int& _drawmethod, const sf::Vector3<std::size_t> & _extra_render)
+TileRenderer::TileRenderer(const std::size_t & _width, const std::size_t & _height, std::pair<largest_uint, largest_uint> _tilesize, const int& _drawmethod, const sf::Vector3<std::size_t> & _extra_render)
 	:tilecont(_width, _height, _extra_render),
 	width(_width),
 	height(_height),
@@ -194,12 +193,13 @@ void TileRenderer::load_palette(const std::string & path) {
 }
 
 bool TileRenderer::load(const std::string & tilefile) {
-	load_palette("palette/YPbPr.pal");
-	std::ifstream spritefile(tilefile.c_str(), std::ios::in);
-	if (!spritefile) {
-		Log::update_error("Couldn't open sprite file: " + tilefile);
-		return false;
-	}
+  auto prepath = ntris::prepath / "palette";
+  load_palette((prepath / "YPbPr.pal").string());
+  std::ifstream spritefile((ntris::prepath / tilefile).string(), std::ios::in);
+  if (!spritefile) {
+    Log::update_error("Couldn't open sprite file: " + tilefile);
+    return false;
+  }
 	std::size_t spritenumber = spritevector.size();
 	//loads the sprites and puts them into a map, if a sprite is equal to a previous sprite, it isn't inserted into the map
 	//this is problematic because it makes it hard to manually select a tile from TLP (tile layer pro)
@@ -669,13 +669,6 @@ unsigned char TileRenderer::colors[10][4] = {
 	{0x0D ,0x30 ,0x16 ,0x12},
 	{0x0D ,0x30 ,0x27 ,0x16}
 };
-/*
-sf::Uint32 TileRenderer::palette[4][16]= { //RGB PALLETE
-	{0x6d6d6dff,0x2492ff,0xdbff,0x6d49dbff,0x92006dff,0xb6006dff,0xb62400ff,0x924900ff,0x6d4900ff,0x244900ff,0x6d24ff,0x9200ff,0x4949ff,0xff,0xff,0xff},
-	{0xb6b6b6ff,0x6ddbff,0x49ffff,0x9200ffff,0xb600ffff,0xff0092ff,0xff0000ff,0xdb6d00ff,0x926d00ff,0x249200ff,0x9200ff,0xb66dff,0x9292ff,0x242424ff,0xff,0xff},
-	{0xffffffff,0x6db6ffff,0x9292ffff,0xdb6dffff,0xff00ffff,0xff6dffff,0xff9200ff,0xffb600ff,0xdbdb00ff,0x6ddb00ff,0xff00ff,0x49ffdbff,0xffffff,0x494949ff,0xff,0xff},
-	{0xffffffff,0xb6dbffff,0xdbb6ffff,0xffb6ffff,0xff92ffff,0xffb6b6ff,0xffdb92ff,0xffff49ff,0xffff6dff,0xb6ff49ff,0x92ff6dff,0x49ffdbff,0x92dbffff,0x929292ff,0xff,0xff}
-};*/
 
 sf::Uint32 TileRenderer::palette[4][16] = { //YPrBr palette //with ntris::trnspr transparent
 	{0x7C7C7CFF ,0x0000FCFF ,0x0000BCFF ,0x4428BCFF ,0x940084FF ,0xA80020FF ,0xA81000FF ,0x881400FF ,0x503000FF ,0x007800FF ,0x006800FF ,0x005800FF ,0x004058FF ,0x000000FF ,0x000000FF ,0x000000FF},

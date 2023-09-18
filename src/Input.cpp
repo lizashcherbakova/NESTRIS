@@ -5,16 +5,17 @@
 #include"Log.hpp"
 #include <iostream>
 
-Input::Input()
-    :leftandright(false)
+Input::Input(const std::string& keybinding_file)
+        :leftandright(false)
 {
-    setup();
+  setup(keybinding_file);
 }
 
+
 void Input::update(const std::size_t& _buttons) {
-    for (std::size_t buttoninit=0; buttoninit<MAXBUTTONS; ++buttoninit) prevactiveinputs[buttoninit]=activeinputs[buttoninit];
-    for (std::size_t buttoninit=0; buttoninit<MAXBUTTONS; ++buttoninit) activeinputs[buttoninit]=false;
-    for (std::size_t buttoninit=0; buttoninit<MAXBUTTONS; ++buttoninit) {
+    for (std::size_t buttoninit=0; buttoninit<ntris::maxbuttons; ++buttoninit) prevactiveinputs[buttoninit]=activeinputs[buttoninit];
+    for (std::size_t buttoninit=0; buttoninit<ntris::maxbuttons; ++buttoninit) activeinputs[buttoninit]=false;
+    for (std::size_t buttoninit=0; buttoninit<ntris::maxbuttons; ++buttoninit) {
         for (const auto& _input_union: inputdependancies[buttoninit]) {
             if (isActive(_input_union)) {
                 activeinputs[buttoninit]=true;
@@ -32,19 +33,20 @@ void Input::update(const std::size_t& _buttons) {
 }
 
 ActiveInputs Input::getInput() {
-    this->update(MAXBUTTONS);
-    return ActiveInputs(MAXBUTTONS,prevactiveinputs,activeinputs,leftandright);
+    this->update(   ntris::maxbuttons);
+    return ActiveInputs(prevactiveinputs,activeinputs,leftandright);
 }
 
-void Input::setup() {
-    active_joysticks.push_back(0);
+void Input::setup(const std::string& keybinding_file) {
+
+  active_joysticks.push_back(0);
     for (std::size_t i=0; i<sf::Joystick::AxisCount; ++i)
         joystick_axis_deadzone[0][i]=(0.5);
 
-    ntris::BTN btn_arr[]={ntris::Left,ntris::Right,ntris::Down,ntris::Up,ntris::Start,ntris::Select,ntris::A,ntris::B};
+    ntris::BTN btn_arr[]={ntris::Left,ntris::Right,ntris::Down,ntris::Up,ntris::Start,ntris::Select,ntris::A,ntris::B, ntris::Space};
     using namespace std::string_literals;
-    std::string s_btn_arr[]={"left_button"s,"right_button"s,"down_button"s,"up_button"s,"start_button"s,"select_button"s,"a_button"s,"b_button"s};
-    ConfigReader keybinds("settings/keybinds.ini");
+    std::string s_btn_arr[]={"left_button"s,"right_button"s,"down_button"s,"up_button"s,"start_button"s,"select_button"s,"a_button"s,"b_button"s, "space_button"s};
+    ConfigReader keybinds(keybinding_file);
 
     initMap();
     for (std::size_t i=0; i<ntris::maxbuttons; ++i) {

@@ -9,7 +9,7 @@
 //	<0: if it's too low
 template<typename T>
 T dicotomic_search(T const left_boundary, T const right_boundary, int(*ternary_function(T const& t)), std::size_t max_it=0, T const& min_dist=0) {
-	if (max_it == 0) max_it = std::numeric_limits<std::size_t>::max;
+	if (max_it == 0) max_it = std::numeric_limits<std::size_t>::max();
 	if (min_dist == 0) min_dist = std::numeric_limits<T>::lowest;
 	else min_dist /= 2.;
 	T middle_boundary = (left_boundary + middle_boundary) / 2.;

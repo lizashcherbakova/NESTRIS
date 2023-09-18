@@ -19,7 +19,7 @@
 class RenderPlayField : public Renderer
 {
     public:
-        RenderPlayField(TileContainer* _tilecont, const nes_ushort& _frameappearance, nes_uchar _level);
+        RenderPlayField(TileContainer* _tilecont, const nes_ushort& _frameappearance, nes_uchar _level, ntris::GameStatus *gameStatus);
         void update(const ActiveInputs& _input, const nes_ushort& _framecounter, GameplayContainer& _gameplay_container, Audio& _audio) ;
         void render(const nes_ushort& framecounter, GameplayContainer& _gameplay_container, Audio& _audio) ;
         void resetPlayField(const nes_uchar& _level_select, GameplayContainer& _gameplay_container, const nes_ushort& _framecounter);
@@ -31,7 +31,7 @@ class RenderPlayField : public Renderer
         bool tetris_sound_on = false;
 
         nes_uchar level;
-        nes_uchar gravity[255];
+        nes_uchar blinkingRate = 15;
 
         bool firstframeis4;
         bool paused;
@@ -41,6 +41,8 @@ class RenderPlayField : public Renderer
 
         void init_assets();
         std::vector<tiletype> renderblink;
+        ntris::GameStatus *gamestatus;
+        // std::vector<std::pair<nes_uchar, nes_uchar>> flyCubes;
         /*
         int lockpiece();
         int updatePlayField(const ActiveInputs& _input) ;

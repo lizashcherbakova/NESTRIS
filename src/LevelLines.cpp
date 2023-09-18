@@ -2,16 +2,17 @@
 #include"TextWriter.hpp"
 #include<string>
 #include"Log.hpp"
-LevelLines::LevelLines(TileContainer* _tilecont, const nes_ushort& _frameappearance, const nes_uchar& _level)
-    :Renderer(_tilecont, _frameappearance), starting_level(_level), real_level(_level), shown_level(_level), lines(0u)
-{
-    linestolevelup=(real_level+1)/16*100;
+
+LevelLines::LevelLines(TileContainer* _tilecont, const nes_ushort& _frameappearance, const nes_uchar& _level, ntris::GameStatus* _gamestatus)
+   :Renderer(_tilecont, _frameappearance), starting_level(_level), real_level(_level), shown_level(_level), lines(0u), gamestatus(_gamestatus)
+  {
+  linestolevelup=(real_level+1)/16*100;
     if ((real_level+1)%16>=10) linestolevelup+=100;
     else linestolevelup+=((real_level+1)%16)*10;
 }
 
 void LevelLines::render(Audio& _audio) {
-    if (ntris::updatingmatrix <= 0 && ntris::lineclearframecounter <= 0) {
+    if (gamestatus->updatingmatrix <= 0 && gamestatus->lineclearframecounter <= 0) {
         if (shown_level != real_level) {
             _audio.playLevelUp();
             shown_level = real_level;
@@ -22,7 +23,7 @@ void LevelLines::render(Audio& _audio) {
         return;
     }
     else {
-        if (ntris::lineclearframecounter) { //IT UPDATES AFTER LINECLEARFRAMECOUNTER AND BEFORE UPDATINGAMATRIX
+        if (gamestatus->lineclearframecounter) { //IT UPDATES AFTER LINECLEARFRAMECOUNTER AND BEFORE UPDATINGAMATRIX
             TextWriter::write_hex(linestemp[0], tilecont, {ntris::linesx+1,ntris::linesy},2);
             TextWriter::write_hex(linestemp[1], tilecont, {ntris::linesx,ntris::linesy},1);
 

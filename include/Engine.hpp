@@ -14,42 +14,47 @@
 #include"Audio.hpp"
 #include"GameplayContainer.hpp"
 
-class Engine
-{
-    public:
-        enum MenuType {
-            GAMEMODESELECT,
-            LEVELSELECT,
-            PLAYFIELD,
-            HIGHSCORE,
-        };
-        Engine(TileContainer* _tilecont, const MenuType& _startingmenu);
-        void frame(const ActiveInputs& _inputs, Audio & _audio);
-    protected:
-    private:
+class Engine {
+public:
 
-        GameplayContainer gameplay_container;
-        TileContainer* tilecont;
-        MenuType currentmenu;
+  enum MenuType {
+    GAMEMODESELECT,
+    LEVELSELECT,
+    PLAYFIELD,
+    HIGHSCORE,
+  };
 
-        RenderLevelSelect RLS;
-        RenderPlayField RPF;
-        RenderHighScore RHS;
-        RenderGameModeSelect RGMS;
+  Engine(TileContainer *menu_tile_container, TileContainer **_tilecont, const MenuType &_startingmenu);
 
-        //levelselect
-        int levelselect = 0;
-        bool levelselectreload = true;
-        bool game_mode_select_reload = true;
+  void frame(const ActiveInputs **_inputs, Audio &_audio);
 
-        //game
-        unsigned long long framecounter = 0;
-        //statistics
-        int piececount[7];
+  MenuType currentmenu;
 
-        //int updatePlayField(const ActiveInputs& _input);
-        int updateStatistics();
-        int updateEndingScreen();
+private:
+  void handlePlayFieldCase(Audio & _audio, const ActiveInputs **_inputs);
+
+private:
+  // * multiple
+  std::vector<GameplayContainer> gameplay_containers;
+  TileContainer **tileconts;
+  TileContainer *menu_tile_container;
+
+  RenderLevelSelect RLS;
+  // * multiple
+  std::vector<RenderPlayField> RPFs;
+  std::vector<RenderHighScore> RHSs;
+
+  RenderGameModeSelect RGMS;
+
+  //levelselect
+  int levelselect = 0;
+  bool levelselectreload = true;
+  bool game_mode_select_reload = true;
+
+  //game
+  unsigned long long framecounter = 0;
+  //statistics
+  int piececount[7];
 };
 
 #endif // ENGINE_H

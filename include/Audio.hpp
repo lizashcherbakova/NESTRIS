@@ -1,5 +1,6 @@
 #ifndef AUDIO_H
 #define AUDIO_H
+
 #include"ntris.hpp"
 #include"StaticClass.hpp"
 #include<SFML/Audio.hpp>
@@ -9,16 +10,21 @@
 #include<condition_variable>
 #include"SafeQueue.hpp"
 
+#include<SFML/Audio.hpp>
+#include"Log.hpp"
+#include<string>
+#include"ntris.hpp"
+
 class Audio : sf::NonCopyable {
 public:
-	void init();
+	void init(const std::filesystem::path &path);
 	void setVolumeMusic(float const& volume);
 	void setVolumeSFX(float const& volume);
 	void muteMusic();
 	void unMuteMusic();
 	void muteSFX();
 	void unMuteSFX();
-	void playMusic(std::size_t const& theme_number, bool const& fast);
+	void playMusic(std::size_t const& theme_number, bool const& fast,const std::filesystem::path &path);
 	//priority over SFX comes into place when the sound is actually played, not when it's issued, i.e. after the frames reported below
 	void playGameOverMusic() {};
 	void playHighScoreMusic() {};

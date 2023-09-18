@@ -37,10 +37,42 @@ void ConsoleManager::init_unlocked_tree_map() {
 
 }
 
+std::string getFontPathFromConfigFile(const std::string& configFilePath) {
+  std::ifstream configFile(configFilePath);
+
+  if (!configFile.is_open()) {
+    std::cerr << "Could not open config file: " << configFilePath << std::endl;
+    return "";
+  }
+
+  std::string line;
+  while (std::getline(configFile, line)) {
+    // Split line on '=' character
+    std::size_t pos = line.find('=');
+    if (pos != std::string::npos) {
+      std::string key = line.substr(0, pos);
+      std::string value = line.substr(pos + 1);
+
+      if (key == "font_path") {
+        return value;
+      }
+    }
+  }
+
+  std::cerr << "font_path not found in config file: " << configFilePath << std::endl;
+  return "";
+}
+
 void ConsoleManager::init()
 {
+  // std::string font_path = getFontPathFromConfigFile("config.txt");
+
+  std::string font_path = ntris::prepath / "Roboto.ttf";
+  //info_window_font.loadFromFile(font_path);
+
 	init_unlocked_tree_map();
-	info_window_font.loadFromFile("Roboto.ttf");
+	//info_window_font.loadFromFile("Roboto.ttf");
+  info_window_font.loadFromFile(font_path);
 	//open_info_window();
 }
 

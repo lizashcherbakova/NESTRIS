@@ -1,6 +1,7 @@
 #ifndef NTRIS_H
 #define NTRIS_H
 #include<cstdint>
+#include <filesystem>
 typedef std::uint_least8_t nes_uchar;
 typedef std::int_least8_t nes_schar;
 typedef std::uint_least16_t nes_ushort;
@@ -16,6 +17,7 @@ typedef char string_character;
 
 class tiletype;
 namespace ntris {
+
     typedef const char* const_string_literal;
     typedef char* string_literal;
     enum BTN {
@@ -26,7 +28,9 @@ namespace ntris {
         Select,
         Start,
         B,
-        A
+        A,
+        Space,
+        BTN_NR_ITEMS
     };
 
     class FrameCounter {
@@ -45,15 +49,24 @@ namespace ntris {
         }
     };
 
+  struct GameStatus {
+    nes_uchar lineclearframecounter;
+    nes_uchar updatingmatrix;
+    nes_uchar ARE;
+  };
 	void incframe();
 
 	nes_schar getframemod4();
 
-    extern nes_uchar lineclearframecounter;
-    extern nes_uchar updatingmatrix;
-    extern nes_uchar ARE;
+  const std::filesystem::path prepath = "";
+
+  extern nes_uchar gravity[255];
+
     extern nes_uchar real_level; //level that sometimes isn't shown e.g. while lines are being cleared
     extern nes_uchar shown_level; //level that is shown by the game
+
+    constexpr std::size_t players=2;
+
     constexpr std::size_t playfieldx=12;
     constexpr std::size_t playfieldy=5;
     const sf::Vector2u nextpiece_coords[7]={{204,112},{204,112},{204,112},{208,112},{204,112},{204,112},{208,112}};
@@ -72,7 +85,7 @@ namespace ntris {
     const std::pair< std::size_t, std::size_t> tilesize={8,8};
     constexpr int spritemode=1;
     constexpr std::size_t maxcolor=4;
-    constexpr std::size_t maxbuttons=8;
+    constexpr std::size_t maxbuttons=BTN_NR_ITEMS;
     constexpr nes_uchar trnspr=0x1d;
     typedef std::tuple<std::size_t, std::size_t, tiletype> triple;
     constexpr long double color_subcarrier_frequency=21477272.72727272727272727272727272L;

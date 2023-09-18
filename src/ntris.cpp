@@ -2,6 +2,9 @@
 
 namespace ntris {
 
+  nes_uchar ntris::gravity[255] = {};
+
+
 	void incframe() {
 		FrameCounter::inc();
 	}

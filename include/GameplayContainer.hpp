@@ -22,5 +22,7 @@ public:
 
     std::size_t music_theme=1;
     std::size_t game_type=0;
+
+  ntris::GameStatus gamestatus = {0, 0, 0};
 };
 

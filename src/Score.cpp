@@ -21,14 +21,14 @@ Score::Score(TileContainer *_tilecont, const nes_ushort& _frameappearance)
 //    top_scores.insert(std::pair(1000u, ScoreContainer(scorearray)));
 //}
 
-void Score::renderInGameScores() {
+void Score::renderInGameScores(const ntris::GameStatus *gameStatus) {
     if (hidecounter>0) {
         --hidecounter;
         return;
     }
     else {
         using namespace std::string_literals;
-        if (ntris::lineclearframecounter>0) {
+        if (gameStatus->lineclearframecounter>0) {
             if (top_scores.empty())
                 TextWriter::write("000000", tilecont, { ntris::topscorex,ntris::topscorey });
             else
@@ -107,7 +107,7 @@ void Score::renderTopScores()
         sf::Vector2u start_lv_pos = sf::Vector2u(lvx, informationy + 2 * i);
         std::string start_lv_zeroes = string_format("%02d", it->second.level_start);
         std::string end_lv_zeroes = string_format("%02d", it->second.level_end);
-        TextWriter::write(start_lv_zeroes + "»" + end_lv_zeroes, tilecont, start_lv_pos);
+        TextWriter::write(start_lv_zeroes + "ï¿½" + end_lv_zeroes, tilecont, start_lv_pos);
 
         //tetris percentage
         sf::Vector2u tt_pos = sf::Vector2u(ttx, informationy + 2 * i);

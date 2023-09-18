@@ -72,7 +72,7 @@ class Score : public Renderer
 
         void softdrop(nes_uchar);
         void lineclear(const nes_uchar& level, const nes_uchar& linescleared) ; //TODO var type
-        void renderInGameScores();
+        void renderInGameScores(const ntris::GameStatus *gameStatus);
         void renderTopScores();
         void storeScore(unsigned int const& _total_lines, unsigned int const& _level_start, unsigned int const& _level_end, unsigned int const& tetris_percentage);
 

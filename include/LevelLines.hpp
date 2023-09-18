@@ -52,7 +52,7 @@ class LevelLines : public Renderer //DOESN'T WORK LIKE THE NES AFTER LEVEL 137
 {
     public:
         LevelLines() {};
-        LevelLines(TileContainer * _tilecont, const nes_ushort& _frameappearance, const nes_uchar& _level);
+        LevelLines(TileContainer * _tilecont, const nes_ushort& _frameappearance, const nes_uchar& _level, ntris::GameStatus* _gamestatus);
         const nes_uchar& get_real_level() const;
         const nes_uchar& get_shown_level() const;
         const nes_uchar& get_starting_level() const;
@@ -70,6 +70,8 @@ class LevelLines : public Renderer //DOESN'T WORK LIKE THE NES AFTER LEVEL 137
         std::size_t total_lines_cleared=0;
         std::size_t tetris_lines_cleared=0;
         static nes_uchar level_hex[256]; //TODO
+        // static field form ntris is turned into a struct.
+        ntris::GameStatus* gamestatus;
 };
 
 #endif // LEVELLINES_H

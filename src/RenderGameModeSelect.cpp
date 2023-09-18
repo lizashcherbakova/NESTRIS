@@ -43,7 +43,7 @@ void RenderGameModeSelect::renderGameModeSelect(const bool& _reload, GameplayCon
 void RenderGameModeSelect::updateGameModeSelect(const ActiveInputs& _input, GameplayContainer& _gameplay_container, Audio& _audio)
 {
 	if (_gameplay_container.music_theme == 4) _audio.stopMusic();
-	else _audio.playMusic(_gameplay_container.music_theme, false);
+	else _audio.playMusic(_gameplay_container.music_theme, false, ntris::prepath);
 	bool music_changed = false;
 	if (_input.getPress(ntris::Start)) {
 		_audio.playMenuSelect();
