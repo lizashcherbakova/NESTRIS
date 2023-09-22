@@ -28,11 +28,8 @@ This version of NESTRIS includes the "Панч" (Punch) mechanic, which activate
 - Quality of life improvements.
 - Pause functionality.
 - Sound emulation.
-- Additional game modes.
 - Modding options.
-- Fullscreen option for reduced lag.
 - Original game glitches.
-- 2 Player mode.
 - Statistics.
 - Volume options.
 
